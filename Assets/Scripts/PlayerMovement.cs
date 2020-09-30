@@ -10,10 +10,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject spawnPoint = null;
     private Vector3 jumpDirection;
     public float jumpSpeed;
-    public GameObject camerOffset;
-    //public float multiplier;
+    //public GameObject cameraOffset;
+    //public float multiplier;
 
-    void Start()
+    void Start()
     {
         rbPlayer = GetComponent<Rigidbody>();
     }
@@ -23,13 +23,13 @@ public class PlayerMovement : MonoBehaviour
         float verMove = Input.GetAxis("Vertical");
 
         direction = new Vector3(horMove, 0, verMove);
-        //jumpDirection = new Vector3(horMove, jumpSpeed, verMove);
-    }
+        //jumpDirection = new Vector3(horMove, jumpSpeed, verMove);
+    }
 
     void FixedUpdate()
     {
         rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
             Debug.Log("Space bar pressed");
@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private void Respawn()
     {
         rbPlayer.MovePosition(spawnPoint.transform.position);
+        rbPlayer.velocity = new Vector3(0, 0, 0);
     }
 
     private void OnTriggerExit(Collider other)
@@ -49,12 +50,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-   private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Page"))
         {
             Destroy(other.gameObject);
-            //Debug.Log("Enters collider");
-        }
+            //Debug.Log("Enters collider");
+        }
     }
 }
