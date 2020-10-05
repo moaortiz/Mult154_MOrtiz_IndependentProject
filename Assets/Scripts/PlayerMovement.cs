@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,12 +11,16 @@ public class PlayerMovement : MonoBehaviour
     public GameObject spawnPoint = null;
     private Vector3 jumpDirection;
     public float jumpSpeed;
+    private TextMeshProUGUI tmPages;
+    public string pagePickedUp;
+    //int count = 0;
     //public GameObject cameraOffset;
     //public float multiplier;
 
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody>();
+        //tmPages = GetComponent<TextMeshProUGUI>();
     }
     private void Update()
     {
@@ -54,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.CompareTag("Page"))
         {
+            //count++;
+            //tmPages.text = pagePickedUp + ": " + count;
             Destroy(other.gameObject);
             //Debug.Log("Enters collider");
         }
