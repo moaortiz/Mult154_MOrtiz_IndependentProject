@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeed;
     private TextMeshProUGUI tmPages;
     public string pagePickedUp;
+    public GameManager gameManager;
     //int count = 0;
     //public GameObject cameraOffset;
     //public float multiplier;
@@ -55,14 +56,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Page"))
         {
-            //count++;
-            //tmPages.text = pagePickedUp + ": " + count;
+            gameManager.UpdateScore(1);
             Destroy(other.gameObject);
-            //Debug.Log("Enters collider");
         }
     }
 }
