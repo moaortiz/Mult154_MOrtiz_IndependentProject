@@ -9,14 +9,10 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 direction = Vector3.zero;
     public float speed = 10.0f;
     public GameObject spawnPoint = null;
-    private Vector3 jumpDirection;
     public float jumpSpeed;
-    private TextMeshProUGUI tmPages;
     public string pagePickedUp;
     public GameManager gameManager;
-    //int count = 0;
-    //public GameObject cameraOffset;
-    //public float multiplier;
+   
 
     void Start()
     {
@@ -40,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
             rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
             Debug.Log("Space bar pressed");
         }
+
+        gameManager.TimeTaken();
     }
 
     private void Respawn()
@@ -54,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Respawn();
         }
-    }
+ }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -63,5 +61,14 @@ public class PlayerMovement : MonoBehaviour
             gameManager.UpdateScore(1);
             Destroy(other.gameObject);
         }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            Debug.Log("Enters if statement for platform");
+            Destroy(collision.gameObject);
+        }
     }
 }

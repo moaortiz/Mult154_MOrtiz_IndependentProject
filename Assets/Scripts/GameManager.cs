@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 {
     public TextMeshProUGUI pagesText;
     private int pages = 0;
+
+    public TextMeshProUGUI currentTimeText;
+    private string currentTime;
     // Start is called before the first frame update
     public void UpdateScore(int delta)
     {
@@ -20,12 +23,9 @@ public class GameManager : MonoBehaviour
         
     }
 
-    /*private void OnTriggerEnter(Collider other)
+    public void TimeTaken()
     {
-        if (other.CompareTag("Page"))
-        {
-            UpdateScore(0);
-            Destroy(other.gameObject);
-        }
-    }*/
+        currentTime = Time.time.ToString("f2");
+        currentTimeText.text = "Time Taken " + currentTime;
+    }
 }
