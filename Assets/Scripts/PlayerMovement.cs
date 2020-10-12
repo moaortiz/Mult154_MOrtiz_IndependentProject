@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeed;
     public string pagePickedUp;
     public GameManager gameManager;
+    //public MainMenu mainMenu;
+    //private bool isGameActive;
    
 
     void Start()
@@ -30,14 +33,32 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
-        if (Input.GetKeyDown(KeyCode.Space))
+        //(mainMenu.isGameActive == true)
         {
-            rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-            Debug.Log("Space bar pressed");
+            rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+                Debug.Log("Space bar pressed");
+            }
+
+            gameManager.TimeTaken();
+        }            
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Page"))
+        {
+            gameManager.UpdateScore(1);
+            Destroy(other.gameObject);
         }
 
-        gameManager.TimeTaken();
+        if(other.CompareTag("End Platform"))
+        {
+            Debug.Log("Enters if statement");
+            //mainMenu.isGameActive = false;
+        }
     }
 
     private void Respawn()
@@ -52,16 +73,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Respawn();
         }
- }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Page"))
-        {
-            gameManager.UpdateScore(1);
-            Destroy(other.gameObject);
-        }
     }
+
 
     private void OnCollisionExit(Collision collision)
     {
