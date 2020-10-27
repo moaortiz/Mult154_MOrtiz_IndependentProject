@@ -35,9 +35,21 @@ public class PlayerMovement : MonoBehaviour
         direction = new Vector3(horMove, 0, verMove);
 
         anim.SetFloat("Speed", verMove);
-        //anim.SetFloat("Speed", horMove);
-        //trans += direction;
-        
+       
+
+        rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim.SetBool("SpacePressed", true);
+            rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+            Debug.Log("Space bar pressed");
+        }
+        else
+        {
+             
+            anim.SetBool("SpacePressed", false);
+        }
+
     }
 
     /*void IsGamePlaying(bool holder)
@@ -52,20 +64,6 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log("Enters FixedUpdate in Playermovement");
         //if (isGameActive == true)
         {
-            //Debug.Log("Enters if statement in FixedUpdate in Playermovement");
-            rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                anim.SetBool("SpacePressed",true);
-                rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-                Debug.Log("Space bar pressed");
-            }
-            else
-            {
-                //anim.SetBool("SpacePressed", false);
-            }
-
-            
             gameManager.TimeTaken();
         }            
     }
