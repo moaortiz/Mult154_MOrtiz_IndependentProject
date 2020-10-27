@@ -8,6 +8,7 @@ TagManager:
   - Page
   - Platform
   - End Platform
+  - Safe
   layers:
   - Default
   - TransparentFX
