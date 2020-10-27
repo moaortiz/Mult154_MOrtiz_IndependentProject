@@ -5,14 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public bool isGameActive;
+    //public delegate void IsGameActive(bool active);
+    //public static event IsGameActive GameActive;
+
+    //private bool gamePlaying = false;
     public void PlayGame()
     {
+        //IsGameBeingPlayed();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        //GameActive?.Invoke(true);
     }
 
-    public void IsGameActive()
+    /*public void IsGameBeingPlayed()
     {
-        isGameActive = true;
-    }
+        Debug.Log("enters method");
+        GameActive?.Invoke(true);
+    }*/
 }

@@ -13,14 +13,19 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeed;
     public string pagePickedUp;
     public GameManager gameManager;
-    //public MainMenu mainMenu;
-    //private bool isGameActive;
-   
+
+    private Animator anim;
+    //float trans = 0;
+
+    //private bool isGameActive = false;
+   // private bool placeholder;
 
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody>();
-        //tmPages = GetComponent<TextMeshProUGUI>();
+        anim = GetComponent<Animator>();
+        ///MainMenu.GameActive += IsGamePlaying;
+        //Debug.Log("Enters Start in Playermovement");
     }
     private void Update()
     {
@@ -28,20 +33,39 @@ public class PlayerMovement : MonoBehaviour
         float verMove = Input.GetAxis("Vertical");
 
         direction = new Vector3(horMove, 0, verMove);
-        //jumpDirection = new Vector3(horMove, jumpSpeed, verMove);
-    }
+
+        anim.SetFloat("Speed", verMove);
+        //anim.SetFloat("Speed", horMove);
+        //trans += direction;
+        
+    }
+
+    /*void IsGamePlaying(bool holder)
+    {
+        Debug.Log("Enters new IsGamePlayingMethod in Playermovement");
+        placeholder = holder;
+        isGameActive = true;
+    }*/
 
     void FixedUpdate()
     {
-        //(mainMenu.isGameActive == true)
+        //Debug.Log("Enters FixedUpdate in Playermovement");
+        //if (isGameActive == true)
         {
+            //Debug.Log("Enters if statement in FixedUpdate in Playermovement");
             rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                anim.SetBool("SpacePressed",true);
                 rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
                 Debug.Log("Space bar pressed");
             }
+            else
+            {
+                //anim.SetBool("SpacePressed", false);
+            }
 
+            
             gameManager.TimeTaken();
         }            
     }
@@ -50,13 +74,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.CompareTag("Page"))
         {
+
             gameManager.UpdateScore(1);
             Destroy(other.gameObject);
         }
 
         if(other.CompareTag("End Platform"))
         {
-            Debug.Log("Enters if statement");
+            //Debug.Log("Enters if statement");
             //mainMenu.isGameActive = false;
         }
     }
@@ -71,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.CompareTag("Hazard"))
         {
+            anim.SetBool("SpacePressed", false);
             Respawn();
         }
     }
@@ -82,6 +108,14 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Enters if statement for platform");
             Destroy(collision.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Safe"))
+        {
+            anim.SetBool("SpacePressed", false);
         }
     }
 }
