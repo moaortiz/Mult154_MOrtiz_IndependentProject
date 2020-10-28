@@ -14,30 +14,23 @@ public class PlayerMovement : MonoBehaviour
     public string pagePickedUp;
     public GameManager gameManager;
 
-    public bool isGameActive = false;
+    private bool isGameActive = true;
 
     private Animator anim;
-    //float trans = 0;
-
-    //private bool isGameActive = false;
-   // private bool placeholder;
-
-    void Start()
+    
+    void Start()
     {
         rbPlayer = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        ///MainMenu.GameActive += IsGamePlaying;
-        //Debug.Log("Enters Start in Playermovement");
-        isGameActive = true;
     }
+
     private void Update()
     {
         if(isGameActive == true)
         {
-            float horMove = Input.GetAxis("Horizontal");
             float verMove = Input.GetAxis("Vertical");
 
-            direction = new Vector3(horMove, 0, verMove);
+            direction = transform.forward * verMove;
 
             anim.SetFloat("Speed", verMove);
 
@@ -58,16 +51,8 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    /*void IsGamePlaying(bool holder)
-    {
-        Debug.Log("Enters new IsGamePlayingMethod in Playermovement");
-        placeholder = holder;
-        isGameActive = true;
-    }*/
-
     void FixedUpdate()
     {
-        //Debug.Log("Enters FixedUpdate in Playermovement");
         if (isGameActive == true)
         {
             gameManager.TimeTaken();
@@ -81,12 +66,6 @@ public class PlayerMovement : MonoBehaviour
 
             gameManager.UpdateScore(1);
             Destroy(other.gameObject);
-        }
-
-        if(other.CompareTag("End Platform"))
-        {
-            //Debug.Log("Enters if statement");
-            //mainMenu.isGameActive = false;
         }
     }
 
@@ -128,5 +107,4 @@ public class PlayerMovement : MonoBehaviour
            gameManager.LoadMenu();
         }
     }
-
 }

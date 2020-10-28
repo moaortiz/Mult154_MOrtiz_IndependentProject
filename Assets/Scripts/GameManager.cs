@@ -10,10 +10,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI pagesText;
     private int pages = 0;
 
+    private float startTime;
+    
     public TextMeshProUGUI currentTimeText;
     private string currentTime;
-
-    //private PlayerMovement reachedLastPlatform;
 
     public TextMeshProUGUI goToNextLevel;
     public TextMeshProUGUI redoSameLevel;
@@ -24,13 +24,7 @@ public class GameManager : MonoBehaviour
 
     public void Start()
     {
-        //reachedLastPlatform.PlayerReachedEndPlatform();
-        goToNextLevel.enabled = false;
-        nextLevel.enabled = false;
-        mainMenu.enabled = false;
-        redoSameLevel.enabled = false;
-        redoLevel.enabled = false;
-        mainMenu.enabled = false;
+        startTime = Time.time;
     }
 
     public void UpdateScore(int delta)
@@ -46,7 +40,7 @@ public class GameManager : MonoBehaviour
 
      public void TimeTaken()
     {
-        currentTime = Time.time.ToString("f2");
+        currentTime = (Time.time - startTime).ToString("f2");
         currentTimeText.text = "Time Taken " + currentTime;
     }
 
