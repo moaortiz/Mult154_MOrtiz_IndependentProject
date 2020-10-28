@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     public string pagePickedUp;
     public GameManager gameManager;
 
+    public bool isGameActive = false;
+
     private Animator anim;
     //float trans = 0;
 
@@ -26,30 +28,34 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         ///MainMenu.GameActive += IsGamePlaying;
         //Debug.Log("Enters Start in Playermovement");
+        isGameActive = true;
     }
     private void Update()
     {
-        float horMove = Input.GetAxis("Horizontal");
-        float verMove = Input.GetAxis("Vertical");
-
-        direction = new Vector3(horMove, 0, verMove);
-
-        anim.SetFloat("Speed", verMove);
-       
-
-        rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(isGameActive == true)
         {
-            anim.SetBool("SpacePressed", true);
-            rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-            Debug.Log("Space bar pressed");
-        }
-        else
-        {
-             
-            anim.SetBool("SpacePressed", false);
-        }
+            float horMove = Input.GetAxis("Horizontal");
+            float verMove = Input.GetAxis("Vertical");
 
+            direction = new Vector3(horMove, 0, verMove);
+
+            anim.SetFloat("Speed", verMove);
+
+
+            rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                anim.SetBool("SpacePressed", true);
+                rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+                Debug.Log("Space bar pressed");
+            }
+            else
+            {
+
+                anim.SetBool("SpacePressed", false);
+            }
+        }
+        
     }
 
     /*void IsGamePlaying(bool holder)
@@ -62,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         //Debug.Log("Enters FixedUpdate in Playermovement");
-        //if (isGameActive == true)
+        if (isGameActive == true)
         {
             gameManager.TimeTaken();
         }            
@@ -115,5 +121,12 @@ public class PlayerMovement : MonoBehaviour
         {
             anim.SetBool("SpacePressed", false);
         }
+        if(collision.gameObject.CompareTag("End Platform"))
+        {
+            isGameActive = false;
+            anim.SetFloat("Speed", 0);
+           gameManager.LoadMenu();
+        }
     }
+
 }
