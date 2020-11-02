@@ -13,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
     public float jumpSpeed;
     public string pagePickedUp;
     public GameManager gameManager;
+    
+
+    private bool isJumping = false;
 
     private bool isGameActive = true;
 
@@ -22,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rbPlayer = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        
     }
 
     private void Update()
@@ -36,11 +40,12 @@ public class PlayerMovement : MonoBehaviour
 
 
             rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && isJumping == false)
             {
                 anim.SetBool("SpacePressed", true);
                 rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
                 Debug.Log("Space bar pressed");
+                isJumping = true;
             }
             else
             {
@@ -96,15 +101,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Safe"))
+        if(collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Safe") || collision.gameObject.CompareTag("Start Platform"))
         {
             anim.SetBool("SpacePressed", false);
+            isJumping = false;
         }
         if(collision.gameObject.CompareTag("End Platform"))
         {
             isGameActive = false;
             anim.SetFloat("Speed", 0);
-           gameManager.LoadMenu();
+            gameManager.LoadMenu();
+            
         }
-    }
+     }
 }

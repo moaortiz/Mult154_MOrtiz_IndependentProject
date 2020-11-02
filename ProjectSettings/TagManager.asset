@@ -9,6 +9,7 @@ TagManager:
   - Platform
   - End Platform
   - Safe
+  - Start Platform
   layers:
   - Default
   - TransparentFX

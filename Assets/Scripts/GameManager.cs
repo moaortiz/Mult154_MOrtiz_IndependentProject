@@ -22,9 +22,15 @@ public class GameManager : MonoBehaviour
     public Button redoLevel;
     public Button mainMenu;
 
+    private Book bookAn;
+    public GameObject book = null;
+
+
+
     public void Start()
     {
         startTime = Time.time;
+        book.SetActive(false);
     }
 
     public void UpdateScore(int delta)
@@ -52,6 +58,8 @@ public class GameManager : MonoBehaviour
             goToNextLevel.gameObject.SetActive(true);
             nextLevel.gameObject.SetActive(true);
             mainMenu.gameObject.SetActive(true);
+            book.SetActive(true);
+            //bookAn.BookAnimation();
 
         }
         else
