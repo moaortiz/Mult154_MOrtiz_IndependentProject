@@ -52,6 +52,12 @@ public class PlayerMovement : MonoBehaviour
 
                 anim.SetBool("SpacePressed", false);
             }
+
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                gameManager.GamePaused();
+                isGameActive = false;
+            }
         }
         
     }
@@ -114,4 +120,9 @@ public class PlayerMovement : MonoBehaviour
             
         }
      }
+
+    public void Active()
+    {
+        isGameActive = true;
+    }
 }

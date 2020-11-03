@@ -25,7 +25,10 @@ public class GameManager : MonoBehaviour
     private Book bookAn;
     public GameObject book = null;
 
-
+    public TextMeshProUGUI gamePaused;
+    public Button pausedMenu;
+    public Button pausedExit;
+    public Button pausedResume;
 
     public void Start()
     {
@@ -81,5 +84,34 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
+    }
+
+    public void RedoLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+    }
+
+    public void GamePaused()
+    {
+        Debug.Log("Enters paused method");
+        gamePaused.gameObject.SetActive(true);
+        pausedMenu.gameObject.SetActive(true);
+        pausedExit.gameObject.SetActive(true);
+        pausedResume.gameObject.SetActive(true);
+    }
+
+    public void GameUnpaused()
+    {
+        Debug.Log("Enters Unpaused Method");
+        gamePaused.gameObject.SetActive(false);
+        pausedMenu.gameObject.SetActive(false);
+        pausedExit.gameObject.SetActive(false);
+        pausedResume.gameObject.SetActive(false);
+    }
+
+    public void EndGame()
+    {
+        Application.Quit();
     }
 }
