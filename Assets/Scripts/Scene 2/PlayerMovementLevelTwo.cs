@@ -66,7 +66,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     {
         if (isGameActive == true)
         {
-            //gameManager.TimeTaken();
+            gameManager.TimeTaken();
         }            
     }
 
@@ -75,7 +75,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
         if (other.CompareTag("Page"))
         {
 
-            //gameManager.UpdateScore(1);
+            gameManager.UpdateScore(1);
             Destroy(other.gameObject);
         }
     }
