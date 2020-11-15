@@ -24,7 +24,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
         
     }
 
@@ -36,13 +36,13 @@ public class PlayerMovementLevelTwo : MonoBehaviour
 
             direction = transform.forward * verMove;
 
-            anim.SetFloat("Speed", verMove);
+            //anim.SetFloat("Speed", verMove);
 
 
             rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
             if (Input.GetKeyDown(KeyCode.Space) && isJumping == false)
             {
-                anim.SetBool("SpacePressed", true);
+                //anim.SetBool("SpacePressed", true);
                 rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
                 Debug.Log("Space bar pressed");
                 isJumping = true;
@@ -50,7 +50,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
             else
             {
 
-                anim.SetBool("SpacePressed", false);
+                //anim.SetBool("SpacePressed", false);
             }
 
             if(Input.GetKeyDown(KeyCode.E))
@@ -66,7 +66,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     {
         if (isGameActive == true)
         {
-            gameManager.TimeTaken();
+            //gameManager.TimeTaken();
         }            
     }
 
@@ -75,7 +75,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
         if (other.CompareTag("Page"))
         {
 
-            gameManager.UpdateScore(1);
+            //gameManager.UpdateScore(1);
             Destroy(other.gameObject);
         }
     }
@@ -90,7 +90,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     {
         if (other.CompareTag("Hazard"))
         {
-            anim.SetBool("SpacePressed", false);
+            //anim.SetBool("SpacePressed", false);
             Respawn();
         }
     }
@@ -100,8 +100,8 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Platform"))
         {
-            Debug.Log("Enters if statement for platform");
-            Destroy(collision.gameObject);
+            //Debug.Log("Enters if statement for platform");
+            //Destroy(collision.gameObject);
         }
     }
 
@@ -109,13 +109,13 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Safe") || collision.gameObject.CompareTag("Start Platform"))
         {
-            anim.SetBool("SpacePressed", false);
+            //anim.SetBool("SpacePressed", false);
             isJumping = false;
         }
         if(collision.gameObject.CompareTag("End Platform"))
         {
             isGameActive = false;
-            anim.SetFloat("Speed", 0);
+            //anim.SetFloat("Speed", 0);
             gameManager.LoadMenu();
             
         }
