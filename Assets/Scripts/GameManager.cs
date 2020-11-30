@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private int pages = 0;
 
     private float startTime;
-    
+
     public TextMeshProUGUI currentTimeText;
     private string currentTime;
 

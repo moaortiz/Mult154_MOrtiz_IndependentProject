@@ -20,7 +20,8 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     private bool isGameActive = true;
 
     private Animator anim;
-    
+
+    private IEnumerator coroutine;
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody>();
@@ -96,13 +97,26 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     }
 
 
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionExit(Collision other)
     {
-        if (collision.gameObject.CompareTag("Platform"))
+        if (other.gameObject.CompareTag("Platform"))
         {
-            //Debug.Log("Enters if statement for platform");
-            //Destroy(collision.gameObject);
+            Debug.Log("Enters if statement for platform");
+            other.gameObject.SetActive(false);
+            coroutine = PlatformsReappear(5.0f);
+            StartCoroutine(coroutine);
+            
         }
+    }
+
+    private IEnumerator PlatformsReappear(float waitTime)
+    {
+        while (true)
+        { 
+            yield return new WaitForSeconds(waitTime);
+            gameObject.SetActive(true);
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
