@@ -13,7 +13,9 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     public float jumpSpeed;
     public string pagePickedUp;
     public GameManager gameManager;
-    
+
+    //public ArrayList [] platforms;
+    //public GameObject [] platforms;
 
     private bool isJumping = false;
 
@@ -25,7 +27,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody>();
-        //anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         
     }
 
@@ -37,13 +39,13 @@ public class PlayerMovementLevelTwo : MonoBehaviour
 
             direction = transform.forward * verMove;
 
-            //anim.SetFloat("Speed", verMove);
+            anim.SetFloat("Speed", verMove);
 
 
             rbPlayer.AddForce(direction * speed, ForceMode.Impulse);
             if (Input.GetKeyDown(KeyCode.Space) && isJumping == false)
             {
-                //anim.SetBool("SpacePressed", true);
+                anim.SetBool("SpacePressed", true);
                 rbPlayer.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
                 Debug.Log("Space bar pressed");
                 isJumping = true;
@@ -51,7 +53,7 @@ public class PlayerMovementLevelTwo : MonoBehaviour
             else
             {
 
-                //anim.SetBool("SpacePressed", false);
+                anim.SetBool("SpacePressed", false);
             }
 
             if(Input.GetKeyDown(KeyCode.E))
@@ -85,13 +87,14 @@ public class PlayerMovementLevelTwo : MonoBehaviour
     {
         rbPlayer.MovePosition(spawnPoint.transform.position);
         rbPlayer.velocity = new Vector3(0, 0, 0);
+        //platforms.gameObject.SetActive(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Hazard"))
         {
-            //anim.SetBool("SpacePressed", false);
+            anim.SetBool("SpacePressed", false);
             Respawn();
         }
     }
@@ -103,37 +106,56 @@ public class PlayerMovementLevelTwo : MonoBehaviour
         {
             Debug.Log("Enters if statement for platform");
             other.gameObject.SetActive(false);
-            coroutine = PlatformsReappear(5.0f);
-            StartCoroutine(coroutine);
-            
-        }
-    }
+            //coroutine = PlatformsReappear(5.0f);
+            //StartCoroutine(coroutine);
 
-    private IEnumerator PlatformsReappear(float waitTime)
-    {
-        while (true)
-        { 
-            yield return new WaitForSeconds(waitTime);
-            gameObject.SetActive(true);
+            /*float destroyedTime = Time.deltaTime;
+            if(destroyedTime == 2.0f)
+            {
+                other.gameObject.SetActive(true);
+            }*/
         }
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Platform") || collision.gameObject.CompareTag("Safe") || collision.gameObject.CompareTag("Start Platform"))
         {
-            //anim.SetBool("SpacePressed", false);
+            anim.SetBool("SpacePressed", false);
             isJumping = false;
         }
         if(collision.gameObject.CompareTag("End Platform"))
         {
             isGameActive = false;
-            //anim.SetFloat("Speed", 0);
+            anim.SetFloat("Speed", 0);
             gameManager.LoadMenu();
             
         }
-     }
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            Debug.Log("Enters oncollisionenter if statement for platform");
+
+            //StartCoroutine(WaitTime());
+
+            /*float playerOnTime = Time.deltaTime;
+            if (playerOnTime >= 4.0f)
+            {
+                collision.gameObject.SetActive(false);
+            }*/
+        }
+    }
+
+
+    /*private IEnumerator WaitTime()
+    {
+        Deactivate();
+        yield return new WaitForSeconds(5.0f);
+    }
+
+    private void Deactivate()
+    {
+        gameObject.CompareTag("Platform").SetActive(false);
+    }*/
 
     public void Active()
     {
